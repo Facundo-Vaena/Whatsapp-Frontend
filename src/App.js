@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState } from "react";
+import QrLogin from "./components/QrLogin";
+import SessionData from "./components/SessionData";
+import { UserContext } from "./context";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
 function App() {
+  const [instanceId, setInstanceId] = useState("no hay socket");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<UserContext.Provider value={{ instanceId, setInstanceId }}><QrLogin /></UserContext.Provider>} />
+        <Route
+          path="/session"
+          element={
+            <UserContext.Provider value={{ instanceId, setInstanceId }}>
+              <SessionData />
+            </UserContext.Provider>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
